@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Path
+from fastapi import APIRouter, Path, Query
 
 router = APIRouter(prefix='/projects')
 
@@ -13,7 +13,8 @@ router = APIRouter(prefix='/projects')
     },
     description='Retorna una lista paginada con los proyectos del usuario. Si no hay proyectos para mostrar, retorna lista vacía.'
 )  # GET /projects
-async def get_list() -> list:
+async def get_list(limit: Annotated[int, Query(ge=1, le=1000)] = 10, offset: Annotated[int, Query(ge=1, le=1000)] = 0) -> list:
+    print(f'Paginado limite {limit} y offset {offset}')
     return []
 
 
