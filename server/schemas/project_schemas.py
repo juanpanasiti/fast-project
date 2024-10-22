@@ -8,6 +8,7 @@ class NewProjectRequest(BaseModel):
     status: str = 'new'
     description: str = ''
 
+
 class ProjectRequest(BaseModel):
     title: str | None = None
     status: str | None = None
@@ -19,5 +20,5 @@ class ProjectResponse(BaseModel):
     title: str
     status: str = 'new'
     description: str = ''
-    created_at: datetime
-    updated_at: datetime
+    created_at: datetime = datetime.now()
+    updated_at: datetime = datetime.now()
