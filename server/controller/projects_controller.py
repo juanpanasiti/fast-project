@@ -1,20 +1,18 @@
 from typing import List
 
-from fastapi import HTTPException
 
 from server.schemas.project_schemas import NewProjectRequest, ProjectResponse, ProjectRequest
-from server.exceptions import BaseHTTPException, InternalServerError, NotFound
+from server.exceptions import BaseHTTPException, InternalServerError
+from server.service import ProjectsService
 
 
 class ProjectsController:
     def __init__(self):
-        pass  # TODO: referencia a servicio
+        self.service = ProjectsService()
 
     def create(self, new_project: NewProjectRequest) -> ProjectResponse:
         try:
-            # TODO: llamar a la capa de servicio para que gestione la acción correspondiente
-            # Retornar data de ejemplo
-            return ProjectResponse(id=1, **new_project.model_dump())
+            return self.service.create(new_project)
         except BaseHTTPException as ex:
             # TODO: implementar logging
             raise ex
@@ -24,9 +22,7 @@ class ProjectsController:
 
     def get_list(self, limit: int, offset: int) -> List[ProjectResponse]:
         try:
-            # TODO: llamar a la capa de servicio para que gestione la acción correspondiente
-            # Codigo de ejemplo
-            return []
+            return self.service.get_list(limit, offset)
         except BaseHTTPException as ex:
             # TODO: implementar logging
             raise ex
@@ -36,9 +32,7 @@ class ProjectsController:
 
     def get_by_id(self, id: int) -> ProjectResponse:
         try:
-            # TODO: llamar a la capa de servicio para que gestione la acción correspondiente
-            # ejemplo de error
-            raise NotFound(f'Proyecto #{id} no encontrado.')
+            return self.service.get_by_id(id)
         except BaseHTTPException as ex:
             # TODO: implementar logging
             raise ex
@@ -48,9 +42,7 @@ class ProjectsController:
 
     def update(self, id: int, new_data: ProjectRequest) -> ProjectResponse:
         try:
-            # TODO: llamar a la capa de servicio para que gestione la acción correspondiente
-            # ejemplo
-            return ProjectResponse(id=id, **new_data.model_dump())
+            return self.service.update(id, new_data)
         except BaseHTTPException as ex:
             # TODO: implementar logging
             raise ex
@@ -60,8 +52,7 @@ class ProjectsController:
 
     def delete(self, id: int) -> None:
         try:
-            # TODO: llamar a la capa de servicio para que gestione la acción correspondiente
-            return # 
+            self.service.delete(id)
         except BaseHTTPException as ex:
             # TODO: implementar logging
             raise ex
