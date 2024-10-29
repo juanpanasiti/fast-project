@@ -18,6 +18,7 @@ class ProjectsController:
             logger.debug(f'Crear proyecto {new_project.title}')
             return self.service.create(new_project)
         except BaseHTTPException as ex:
+            logger.error(f'Error al procesar request, status code {ex.status_code}: {ex.description}')
             self.__handler_http_exception(ex)
         except Exception:
             logger.critical(f'Error no contemplado en {__name__}.create()')
