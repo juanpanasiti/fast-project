@@ -1,3 +1,4 @@
+from server.external_interface import projects_api_client
 
 
 class ProjectsRepository:
@@ -21,6 +22,7 @@ class ProjectsRepository:
         first_index = min(db_size, offset)
         last_index = min(db_size, (first_index + limit))
         return ProjectsRepository.fake_db[first_index:last_index]
+        # return projects_api_client.get_list(limit, offset)  # Ejemplo de llamado a api externa
 
     def get_by_id(self, id: int) -> dict | None:
         for project in ProjectsRepository.fake_db:
