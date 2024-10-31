@@ -5,7 +5,7 @@ class BaseHTTPException(HTTPException):
     description: str
     status_code: int
 
-    def __init__(self, message: str):
+    def __init__(self, message: str = ''):
         super().__init__(status_code=self.status_code, detail=message)
 
     @classmethod
