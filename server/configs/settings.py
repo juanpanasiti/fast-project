@@ -9,6 +9,9 @@ class Settings(BaseSettings):
     # External Data
     PROJECTS_API: str
 
+    # Database
+    DB_CONN: str
+
     # Logging
     DEBUG: bool = False
 
