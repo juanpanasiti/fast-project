@@ -25,7 +25,7 @@ class ProjectsRepository:
         self.db.add(new_project)
         self.db.commit()
         self.db.refresh(new_project)
-        return self.__to_dict(new_project)
+        return new_project.to_dict()
 
 
     def get_list(self, limit: int, offset: int) -> list[dict]:
@@ -40,7 +40,7 @@ class ProjectsRepository:
 
         # DB
         projects = self.db.query(ProjectModel).order_by('id').limit(limit).offset(offset).all()
-        return [self.__to_dict(project) for project in projects]
+        return [project.to_dict() for project in projects]
 
     def get_by_id(self, project_id: int) -> dict | None:
         # for project in ProjectsRepository.fake_db:
@@ -48,7 +48,7 @@ class ProjectsRepository:
         #         return project
         project = self.__get_one(project_id)
         if project is None: return
-        return self.__to_dict(project)
+        return project.to_dict()
     
 
     def update(self, id: int, new_data: dict) -> dict | None:
@@ -65,7 +65,7 @@ class ProjectsRepository:
             setattr(project, field, new_data[field])
         self.db.commit()
         self.db.refresh(project)
-        return self.__to_dict(project)
+        return project.to_dict()
 
     def delete(self, id: int) -> bool:
         # current_project = self.get_by_id(id)
@@ -81,10 +81,3 @@ class ProjectsRepository:
 
     def __get_one(self, project_id: int) -> ProjectModel | None:
         return self.db.query(ProjectModel).filter_by(id=project_id).first()
-
-    def __to_dict(self, project: ProjectModel) -> dict:
-        return {
-            column.name: getattr(project, column.name)
-            for column in ProjectModel.__table__.columns
-        }
-    
