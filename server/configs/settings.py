@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     # JWT
     JWT_SECRET_KEY: str
     JWT_ALGORITHM: str = 'HS256'
-    JWT_EXPIRATION_TIME_MINUTE: int = 60
+    JWT_EXPIRATION_TIME_MINUTES: int = 60
 
     # External Data
     PROJECTS_API: str

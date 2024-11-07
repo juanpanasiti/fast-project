@@ -18,6 +18,9 @@ class AuthController:
             return self.auth_service.register(new_user)
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)
+        except UniqFieldException as ex:
+            logger.error(str(ex))
+            raise BadRequest('Campo username/email duplicado.')
         except Exception as ex:
             logger.critical(f'Error no contemplado en {__name__}.register(): ' + str(ex))
             raise InternalServerError(str(ex))

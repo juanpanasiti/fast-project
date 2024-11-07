@@ -1,5 +1,4 @@
 import logging
-from typing import List
 
 from server.repository import UsersRepository
 from server.exceptions import BadRequest
@@ -28,12 +27,19 @@ class AuthService:
         if not is_pass_ok:
             raise BadRequest('Error en username/password')
         response = TokenResponse.model_validate({'user': user})
-        response.access_token = self.__get_token(response.user.id, response.user.role)
+        response.access_token = self.__get_user_token(response.user.id, response.user.role)
         return response
 
     def __get_token(self, user: UserResponse) -> TokenResponse:
+        token = self.__get_user_token(user.id, user.role)
+        return TokenResponse(
+            access_token=token,
+            user=user,
+        )
+
+    def __get_user_token(self, user_id, user_role) -> str:
         payload = {
-            'user_id': str(user.id),
-            'role': user.role,
+            'user_id': str(user_id),
+            'role': user_role,
         }
         return jwt_handler.encode(payload)

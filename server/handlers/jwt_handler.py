@@ -10,7 +10,7 @@ class JwtHandler:
         self.secret_key: str = settings.JWT_SECRET_KEY
         self.algorithm: str = settings.JWT_ALGORITHM
 
-        self.expires_delta = timedelta(minutes=settings.JWT_EXPIRATION_TIME_MINUTE)
+        self.expires_delta = timedelta(minutes=settings.JWT_EXPIRATION_TIME_MINUTES)
 
     def encode(self, data: dict) -> str:
         payload = data.copy()
