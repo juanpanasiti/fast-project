@@ -1,10 +1,13 @@
 from typing import Annotated, List
 
-from fastapi import APIRouter, Path, Query
+from fastapi import APIRouter, Path, Query, Depends
 
 from server.schemas.user_schemas import NewUserRequest, UserResponse, UserRequest
+from server.schemas.auth_schemas import DecodedJwt
 from server.controller import UsersController
 from server.exceptions import InternalServerError, NotFound
+from server.dependencies import has_permission
+from server.enums import RoleEnum as Role
 
 router = APIRouter(prefix='/users')
 router.responses = {
@@ -33,8 +36,12 @@ async def create(new_user: NewUserRequest) -> UserResponse:
     },
     description='Retorna una lista paginada con los usuarios del usuario. Si no hay usuarios para mostrar, retorna lista vacía.'
 )  # GET /users
-async def get_list(limit: Annotated[int, Query(ge=1, le=1000)] = 10, offset: Annotated[int, Query(ge=0)] = 0) -> List[UserResponse]:
-    print(f'Paginado limite {limit} y offset {offset}')
+async def get_list(
+    limit: Annotated[int, Query(ge=1, le=1000)] = 10,
+    offset: Annotated[int, Query(ge=0)] = 0,
+    token: DecodedJwt = Depends(has_permission([Role.ADMIN]))
+) -> List[UserResponse]:
+    print(token)
     return controller.get_list(limit, offset)
 
 

@@ -1,13 +1,21 @@
 # import logging
 
 from fastapi import FastAPI
+from fastapi.middleware import Middleware
 
 from .api import api_router
 from .database import db_connection
+from .middlewares import RequestLoggingMiddleware, JwtMiddleware
+
+
+api_middlewares = [
+    Middleware(JwtMiddleware),
+    Middleware(RequestLoggingMiddleware),
+]
 
 
 # logger = logging.getLogger(__name__)
-fast_projects = FastAPI()
+fast_projects = FastAPI(middleware=api_middlewares)
 
 # Incluimos el router principal a la instancia de FastAPI
 fast_projects.include_router(api_router)

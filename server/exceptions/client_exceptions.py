@@ -6,6 +6,16 @@ class BadRequest(BaseHTTPException):
     status_code = 400
 
 
+class Unauthorized(BaseHTTPException):
+    description = 'El usuario debe estar logueado.'
+    status_code = 401
+
+
+class Forbidden(BaseHTTPException):
+    description = 'El usuario no tiene acceso a este recurso'
+    status_code = 403
+
+
 class NotFound(BaseHTTPException):
     description = 'Recurso no encontrado'
     status_code = 404
