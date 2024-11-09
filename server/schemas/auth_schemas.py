@@ -10,7 +10,6 @@ class RegisterUser(BaseModel):
     username: str
     password: str
     email: EmailStr
-    role: RoleEnum = RoleEnum.COMMON
 
 
 class LoginUser(BaseModel):

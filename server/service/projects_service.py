@@ -10,12 +10,14 @@ class ProjectsService:
     def __init__(self):
         self.project_repo = ProjectsRepository()
 
-    def create(self, new_project: NewProjectRequest) -> ProjectResponse:
-        project_dict = self.project_repo.create(new_project.model_dump())
+    def create(self, new_project: NewProjectRequest, user_id: int) -> ProjectResponse:
+        new_project_dict = new_project.model_dump()
+        new_project_dict.update(user_id=user_id)
+        project_dict = self.project_repo.create(new_project_dict)
         return ProjectResponse(**project_dict)
 
-    def get_list(self, limit: int, offset: int) -> List[ProjectResponse]:
-        project_list = self.project_repo.get_list(limit, offset)
+    def get_list(self, limit: int, offset: int, user_id: int) -> List[ProjectResponse]:
+        project_list = self.project_repo.get_list(limit, offset, user_id)
         return [ProjectResponse(**project) for project in project_list]
 
     def get_by_id(self, id: int) -> ProjectResponse:

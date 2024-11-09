@@ -3,9 +3,10 @@ import logging
 from server.repository import UsersRepository
 from server.exceptions import BadRequest
 from server.schemas.auth_schemas import RegisterUser, LoginUser, TokenResponse
-from server.schemas.user_schemas import UserResponse
+from server.schemas.user_schemas import UserResponse, NewUserRequest
 from .users_service import UsersService
 from server.handlers.jwt_handler import jwt_handler
+from server.enums import RoleEnum as Role
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +17,9 @@ class AuthService:
         self.user_repo = UsersRepository()
 
     def register(self, new_user: RegisterUser) -> TokenResponse:
-        user = self.user_service.create(new_user)
+        new_user_dict = new_user.model_dump()
+        new_user_dict.update(role=Role.COMMON)
+        user = self.user_service.create(NewUserRequest(**new_user_dict))
         return self.__get_token(user)
 
     def login(self, credentials: LoginUser) -> TokenResponse:

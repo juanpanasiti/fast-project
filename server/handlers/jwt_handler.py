@@ -19,7 +19,7 @@ class JwtHandler:
         payload.update(exp=expire)
         return jwt.encode(payload, self.secret_key, self.algorithm)
 
-    def decode(self, token: str):
+    def decode(self, token: str) -> dict:
         try:
             payload = jwt.decode(token, self.secret_key, algorithms=[self.algorithm])
             return payload

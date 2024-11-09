@@ -28,7 +28,7 @@ class ProjectsRepository:
         return new_project.to_dict()
 
 
-    def get_list(self, limit: int, offset: int) -> list[dict]:
+    def get_list(self, limit: int, offset: int, user_id: int) -> list[dict]:
         # Fake DB
         # db_size = len(ProjectsRepository.fake_db)
         # first_index = min(db_size, offset)
@@ -39,7 +39,7 @@ class ProjectsRepository:
         # return projects_api_client.get_list(limit, offset)  # Ejemplo de llamado a api externa
 
         # DB
-        projects = self.db.query(ProjectModel).order_by('id').limit(limit).offset(offset).all()
+        projects = self.db.query(ProjectModel).order_by('id').filter_by(user_id=user_id).limit(limit).offset(offset).all()
         return [project.to_dict() for project in projects]
 
     def get_by_id(self, project_id: int) -> dict | None:

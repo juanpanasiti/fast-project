@@ -9,14 +9,13 @@ class NewProjectRequest(BaseModel):
     title: str
     status: str = 'new'
     description: str = ''
-    user_id: int
 
 
 class ProjectRequest(BaseModel):
     title: str | None = None
     status: str | None = None
     description: str | None = None
-    user_id: int | None = None
+    user_id: int
 
 
 class ProjectResponse(BaseModel):
