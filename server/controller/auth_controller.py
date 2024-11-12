@@ -5,7 +5,7 @@ from server.schemas.auth_schemas import RegisterUser, LoginUser, TokenResponse
 from server.exceptions import BaseHTTPException, InternalServerError, UniqFieldException, BadRequest
 from server.service import UsersService, AuthService
 
-logger = logging.getLogger(__name__) 
+logger = logging.getLogger(__name__)
 
 
 class AuthController:
@@ -24,7 +24,7 @@ class AuthController:
         except Exception as ex:
             logger.critical(f'Error no contemplado en {__name__}.register(): ' + str(ex))
             raise InternalServerError(str(ex))
-        
+
     def login(self, credentials: LoginUser) -> TokenResponse:
         try:
             return self.auth_service.login(credentials)
@@ -33,12 +33,12 @@ class AuthController:
         except Exception as ex:
             logger.critical(f'Error no contemplado en {__name__}.register(): ' + str(ex))
             raise InternalServerError(str(ex))
-        
-    
+
     def __handler_http_exception(self, ex: BaseHTTPException):
         if ex.status_code >= 500:
-            logger.critical(f'Error en el servidor con status code {
-                            ex.status_code}: {ex.description}')
+            logger.critical(
+                f'Error en el servidor con status code {ex.status_code}: {ex.description}'
+            )
         else:
             logger.error(f'Error {ex.status_code}: {ex.description}')
         raise ex

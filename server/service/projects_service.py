@@ -30,11 +30,9 @@ class ProjectsService:
         updated_project = self.project_repo.update(
             id, new_data.model_dump(exclude_none=True))
         if updated_project is None:
-            raise NotFound(f'Proyecto con id #{
-                           id} no encontrado para actualizarse')
+            raise NotFound(f'Proyecto con id #{id} no encontrado para actualizarse')
         return ProjectResponse(**updated_project)
 
     def delete(self, id: int) -> None:
         if not self.project_repo.delete(id):
-            raise NotFound(f'Proyecto con id #{
-                           id} no encontrado para eliminarse')
+            raise NotFound(f'Proyecto con id #{id} no encontrado para eliminarse')
