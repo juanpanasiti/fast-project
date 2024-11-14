@@ -49,7 +49,7 @@ class ProjectsController:
 
     def update(self, id: int, new_data: ProjectRequest, token: DecodedJwt) -> ProjectResponse:
         try:
-            self.__check_access(new_data.user_id, token)
+            self.get_by_id(id, token)
             return self.service.update(id, new_data)
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)

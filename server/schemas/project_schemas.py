@@ -8,14 +8,15 @@ from .user_schemas import UserResponse
 class NewProjectRequest(BaseModel):
     title: str
     status: str = 'new'
+    priority: str = 'low'
     description: str = ''
 
 
 class ProjectRequest(BaseModel):
     title: str | None = None
     status: str | None = None
+    priority: str | None = None
     description: str | None = None
-    user_id: int
 
 
 class ProjectResponse(BaseModel):
