@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .api import api_router
 from .database import db_connection
+from .configs import api_description
 from .middlewares import RequestLoggingMiddleware, JwtMiddleware
 
 
@@ -24,7 +25,10 @@ api_middlewares = [
 
 
 # logger = logging.getLogger(__name__)
-fast_projects = FastAPI(middleware=api_middlewares)
+fast_projects = FastAPI(
+    middleware=api_middlewares,
+    **api_description
+    )
 
 # Incluimos el router principal a la instancia de FastAPI
 fast_projects.include_router(api_router)
